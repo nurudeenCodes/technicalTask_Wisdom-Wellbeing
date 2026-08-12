@@ -7,9 +7,12 @@ import { mapResource } from "./features/resources/mapResource";
 import { rawResources } from "./data/rawResources";
 import { CategorySection } from "./components/CategorySection/CategorySection";
 import { FilterBar } from "./components/FilterBar/FilterBar";
+import { ResourceDialog } from "./components/ResourceDialog/ResourceDialog";
+import type { Resource } from "./types/resource";
 
 const App = () => {
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<Resource | null>(null);
 
   const resources = useMemo(() => rawResources.map(mapResource), []);
 
@@ -32,9 +35,15 @@ const App = () => {
         </Typography>
       ) : (
         groups.map((group) => (
-          <CategorySection key={group.category} group={group} />
+          <CategorySection
+            key={group.category}
+            group={group}
+            onSelectResource={setSelected}
+          />
         ))
       )}
+
+      <ResourceDialog resource={selected} onClose={() => setSelected(null)} />
     </Container>
   );
 };
