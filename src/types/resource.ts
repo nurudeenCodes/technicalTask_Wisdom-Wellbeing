@@ -32,3 +32,8 @@ export interface Resource {
   description: string;
   dateUploaded: Date;
 }
+
+export interface ResourceGroup {
+  category: Category;
+  resources: Resource[];
+}
