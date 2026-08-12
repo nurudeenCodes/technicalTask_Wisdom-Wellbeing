@@ -2,7 +2,7 @@
 
 A single-page application displaying wellbeing resources grouped by category, built for the HA | Wisdom Wellbeing frontend tech task.
 
-![Resource Centre](docs/Screenshot.png)
+![Resource Centre](docs/screenshot.png)
 
 ## Running locally
 
