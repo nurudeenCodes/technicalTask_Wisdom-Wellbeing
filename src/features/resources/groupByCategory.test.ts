@@ -1,17 +1,5 @@
 import { groupByCategory } from "./groupByCategory";
-import type { Resource } from "../../types/resource";
-
-const makeResource = (overrides: Partial<Resource> = {}): Resource => ({
-  id: "001",
-  category: "Podcasts",
-  title: "Mindful Moments",
-  thumbnail: "https://example.com/photo.jpg",
-  tags: ["wellbeing"],
-  durationMinutes: 25,
-  description: "A calming podcast.",
-  dateUploaded: new Date("2025-07-10"),
-  ...overrides,
-});
+import { makeResource } from "../../test/factories";
 
 describe("groupByCategory", () => {
   it("groups resources under their category", () => {
