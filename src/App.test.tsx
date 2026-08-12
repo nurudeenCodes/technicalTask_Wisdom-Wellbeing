@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 describe("App", () => {
@@ -31,6 +32,44 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(24);
+  });
+
+  it("shows only matching resources when a query is entered", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByRole("searchbox"), "sleep");
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "The Science of Sleep" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { level: 3, name: "Mindful Moments" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("hides categories that have no matching resources", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByRole("searchbox"), "smoothie");
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Recipes" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { level: 2, name: "Podcasts" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("explains when nothing matches", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByRole("searchbox"), "zzzzz");
+
+    expect(screen.getByText(/no resources match/i)).toBeInTheDocument();
+    expect(screen.queryAllByRole("heading", { level: 2 })).toHaveLength(0);
   });
 
   it("orders categories canonically rather than by data order", () => {
