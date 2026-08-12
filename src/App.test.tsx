@@ -85,6 +85,34 @@ describe("App", () => {
     ).toBeInTheDocument();
   });
 
+  it("reorders resources within a category when the sort option changes", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByRole("searchbox"), "meditation");
+    await user.click(screen.getByRole("combobox", { name: /sort by/i }));
+    await user.click(screen.getByRole("option", { name: /oldest/i }));
+
+    const titles = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((h) => h.textContent);
+
+    expect(titles[0]).toBe("Loving-Kindness Practice");
+  });
+
+  it("sorts by newest first by default", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByRole("searchbox"), "meditation");
+
+    const titles = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((h) => h.textContent);
+
+    expect(titles[0]).toBe("Three-Minute Breathing Space");
+  });
+
   it("orders categories canonically rather than by data order", () => {
     render(<App />);
 
