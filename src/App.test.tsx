@@ -30,7 +30,7 @@ describe("App", () => {
   it("renders every resource from the dataset", () => {
     render(<App />);
 
-    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(6);
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(24);
   });
 
   it("orders categories canonically rather than by data order", () => {
