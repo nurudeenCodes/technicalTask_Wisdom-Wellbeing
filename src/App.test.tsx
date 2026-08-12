@@ -72,6 +72,19 @@ describe("App", () => {
     expect(screen.queryAllByRole("heading", { level: 2 })).toHaveLength(0);
   });
 
+  it("opens a detail dialog when a resource card is clicked", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("heading", { level: 3, name: "Mindful Moments" }),
+    );
+
+    expect(
+      await screen.findByRole("dialog", { name: "Mindful Moments" }),
+    ).toBeInTheDocument();
+  });
+
   it("orders categories canonically rather than by data order", () => {
     render(<App />);
 
